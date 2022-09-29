@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      funkySetFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+   init
+   {
+        field U;
+        expression "vector (M0*c0*sin(x1)*cos(x2)*cos(x3),-M0*c0*cos(x1)*sin(x2)*cos(x3),0)";
+        variables 
+        (
+            "x1=pos().x;"
+            "x2=pos().y;"
+            "x3=pos().z;"
+	    "M0=0.01;"
+	    "c0=1.183;"
+	    
+        );
+    }
+
+    init
+    {
+        field p;
+        expression "p0 + M0*M0*c0*c0*( 2+cos(2*x3) )*( cos(2*x1)+cos(2*x2) )/16";
+        variables 
+        (
+            "x1=pos().x;"
+            "x2=pos().y;"
+            "x3=pos().z;"
+	    "M0=0.01;"
+	    "p0=1.0;"
+	    "c0=1.183;"
+        );
+    }
+
+    init
+    {
+        field T;
+        expression "p0 + M0*M0*c0*c0*( 2+cos(2*x3) )*( cos(2*x1)+cos(2*x2) )/16";
+        variables
+        (
+            "x1=pos().x;"
+            "x2=pos().y;"
+            "x3=pos().z;"
+            "M0=0.01;"
+            "p0=1.0;"
+            "c0=1.183;"
+        );
+    }
+
+);
